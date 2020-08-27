@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    android:orientation="vertical"
+    tools:context=".Login.RegisterActivity">
+
+    <EditText
+        android:id="@+id/register_phone_num"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:ems="14"
+        android:hint="手机号"
+        android:singleLine="true"
+        android:textColorHint="#999999"
+        android:textSize="14sp">
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/register_unit_name"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:hint="单位"
+        android:singleLine="true"
+        android:textColorHint="#999999"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/project_name"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:ems="14"
+        android:hint="项目类型"
+        android:singleLine="true"
+        android:textColorHint="#999999"
+        android:textSize="14sp"
+        android:enabled="false"
+        android:text="优良树调查"/>
+
+
+    <EditText
+        android:id="@+id/register_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:hint="@string/idtxthint"
+        android:singleLine="true"
+        android:textColorHint="#999999"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:hint="密码"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textColorHint="#999999"
+        android:textSize="14sp" />
+
+    <!--<EditText-->
+        <!--android:id="@+id/register_password_sure"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="44dp"-->
+        <!--android:hint="确认密码"-->
+        <!--android:inputType="textPassword"-->
+        <!--android:singleLine="true"-->
+        <!--android:textColorHint="#999999"-->
+        <!--android:textSize="14sp" />-->
+
+
+    <Button
+        android:id="@+id/btn_sumbit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/login_btn_text_color"
+        android:text="提交"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp" />
+
+
+</LinearLayout>
