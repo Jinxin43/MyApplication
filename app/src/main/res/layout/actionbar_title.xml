@@ -16,7 +16,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="优良树调查"
+        android:text="优良树种外业调查"
         android:textColor="#FFF"
-        android:textSize="@dimen/text_size_18sp" />
+        android:textSize="@dimen/text_size_17sp" />
+
+
+    <Switch
+        android:id="@+id/sw_buttton"
+       android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#FFF"
+        android:checked="true"
+        android:textSize="10sp"
+        android:text="居中"
+        />
 </RelativeLayout>

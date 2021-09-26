@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 public class SharedPreferencesUtils {
     public static String PREFERENCE_NAME = "AndroidTTS";
 
+
     private SharedPreferencesUtils() {
         throw new AssertionError();
     }

@@ -15,8 +15,8 @@ import java.util.HashMap;
 
 public class AppSetting {
 //    public static final String baseUrl = "http://111.20.63.66:8001";//周保
-    public static final String baseUrl = "http://114.115.255.125:8001";//华为云
-    public static final String serverUrl = "http://114.115.255.125:8011";//上传
+//    public static final String baseUrl = "http://114.115.255.125:8001";//华为云
+    public static final String serverUrl = "http://114.115.255.125:8011";//基础接口
     public static UserEntity curUser;
     public static PatrolEntity curRound;
     public static String curUserKey;

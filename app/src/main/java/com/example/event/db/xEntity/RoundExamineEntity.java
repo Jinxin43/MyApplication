@@ -8,7 +8,6 @@ import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Table(name = "roundExamine")
 public class RoundExamineEntity implements RoundExamine, Serializable {
@@ -391,20 +390,20 @@ public class RoundExamineEntity implements RoundExamine, Serializable {
     }
 
 //    @Override
-//    public String getVideoList() {
-//        return videoList;
-//    }
-//
-//    @Override
-//    public void setVideoList(String videoList) {
-//        this.videoList = videoList;
-//    }
-//
-//    @Override
-//    public String getVideoThumList() {
-//        return videoThumList;
-//    }
-//
+////    public String getVideoList() {
+////        return videoList;
+////    }
+////
+////    @Override
+////    public void setVideoList(String videoList) {
+////        this.videoList = videoList;
+////    }
+////
+////    @Override
+////    public String getVideoThumList() {
+////        return videoThumList;
+////    }
+////
 //    @Override
 //    public void setVideoThumList(String videoThumList) {
 //         this.videoThumList=videoThumList;

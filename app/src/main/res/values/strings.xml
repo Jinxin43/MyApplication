@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">优良树调查</string>
+    <string name="app_name">优良树种外业调查系统</string>
     <string name="title_home">主页</string>
     <string name="title_dashboard">地图</string>
     <string name="title_notifications">设置</string>

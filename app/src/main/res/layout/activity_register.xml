@@ -39,7 +39,7 @@
         android:textColorHint="#999999"
         android:textSize="14sp"
         android:enabled="false"
-        android:text="优良树调查"/>
+        android:text="优良树种外业调查系统"/>
 
 
     <EditText

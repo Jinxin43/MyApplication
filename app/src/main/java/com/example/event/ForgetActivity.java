@@ -1,6 +1,7 @@
 package com.example.event;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.event.Login.LoginActivity;
+import com.example.event.http.Httpmodel.HttpModifyModel;
+import com.example.event.http.RetrofitHttp;
+import org.json.JSONObject;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ForgetActivity extends AppCompatActivity {
 
@@ -86,14 +96,66 @@ public class ForgetActivity extends AppCompatActivity {
                 String phone=mRegister.getText().toString();
                 String oldpassword=mOldPassword.getText().toString();
                 String newPassword=mNewPassword.getText().toString();
-                if (phone != null && !TextUtils.isEmpty(phone)) {
+                if (phone != null && TextUtils.isEmpty(phone)) {
                     Toast.makeText(getApplicationContext(),"手机号未填写!",Toast.LENGTH_SHORT).show();
-                } else if (oldpassword != null && !TextUtils.isEmpty(oldpassword)) {
+                } else if (oldpassword != null && TextUtils.isEmpty(oldpassword)) {
                     Toast.makeText(getApplicationContext(),"旧密码未填写!",Toast.LENGTH_SHORT).show();
-                } else if (newPassword != null && !TextUtils.isEmpty(newPassword)) {
+                } else if (newPassword != null && TextUtils.isEmpty(newPassword)) {
                     Toast.makeText(getApplicationContext(),"新密码未填写!",Toast.LENGTH_SHORT).show();
-                } 
+                } else{
+                    showLoginingDlg();
+                    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                    HttpModifyModel model = new HttpModifyModel();
+                    model.setAccount(phone);
+                    model.setOldPassword(oldpassword);
+                    model.setNewPassword(newPassword);
+                    prompt(RetrofitHttp.getRetrofit(builder.build()).modify("ModifyPassword", model));
+                }
             }
         });
+    }
+
+    private void prompt(Call<ResponseBody> modify) {
+        modify.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() == null) {
+                    return;
+                }
+                try {
+                    JSONObject result = new JSONObject(response.body().string());
+                    closeLoginingDlg();
+                    if (result.get("success").equals(Boolean.TRUE)) {
+                        Toast.makeText(getApplicationContext(), "修改成功!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(ForgetActivity.this, LoginActivity.class));
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(), result.get("msg") + "", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                closeLoginingDlg();// 关闭对话框
+                Toast.makeText(getApplicationContext(), "网络不给力", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    /* 显示正在登录对话框 */
+    private void showLoginingDlg() {
+        if (mLoginingDlg != null)
+            mLoginingDlg.show();
+    }
+
+    /* 关闭正在登录对话框 */
+    private void closeLoginingDlg() {
+        if (mLoginingDlg != null && mLoginingDlg.isShowing())
+            mLoginingDlg.dismiss();
     }
 }

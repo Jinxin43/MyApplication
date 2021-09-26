@@ -157,6 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         userModel.setDevice("0");
                         rePrompt(RetrofitHttp.getRetrofit(builder.build()).login("login", userModel));
                     } else {
+                        closeLoginingDlg();
                         trunToMainActivity();
                     }
 
@@ -413,6 +414,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.register_btnRegister:
                 startActivity(new Intent(this, RegisterActivity.class));
+                finish();
                 break;
             case R.id.login_txtForgotPwd:
                 startActivity(new Intent(this, ForgetActivity.class));
@@ -451,6 +453,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         register.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                closeLoginingDlg();
                 if (response.body() == null) {
                     Toast.makeText(mContext, "本地验证登录", Toast.LENGTH_SHORT).show();
 //                    closeLoginingDlg();
@@ -496,6 +499,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                closeLoginingDlg();
                 Toast.makeText(mContext, "离线成功", Toast.LENGTH_SHORT).show();
 //                closeLoginingDlg();
                 trunToMainActivity();

@@ -44,7 +44,10 @@ import com.DingTu.Base.Tools;
 import com.DingTu.Enum.lkGpsFixMode;
 import com.example.event.Video.VideoRecordActivity;
 import com.example.event.db.xEntity.RoundExamineEntity;
+import com.example.event.db.xEntity.UploadEntity;
 import com.example.event.manager.PatrolManager;
+import com.example.event.manager.UploadMananger;
+import com.example.event.model.EditBean;
 import com.example.event.model.ImgTime;
 import com.example.event.utils.PhotoCamera;
 
@@ -88,8 +91,12 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
     private Button mVideo;
     private Button mDeleteVideo;
     private String mVideoPath = PubVar.m_SysAbsolutePath + "/Video";
-    public static PCallback videoCallBack ;
+    public static PCallback videoCallBack;
     private List<String> delVideos;
+    private boolean hasPhoto;
+    private String Id;
+    private String[] zhongType;
+    private String[] laType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,10 +140,12 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
         mZHongCnName = (Spinner) findViewById(R.id.sp_zhong_cn_name);
 
         String zhong = mBean.getZhongCName();
-        String[] zhongType = "浙江七叶树,大果七叶树,长柄七叶树,大叶七叶树,欧洲七叶树,日本七叶树,云南七叶树,天师栗,小果七叶树,澜沧七叶树,多脉七叶树".split(",");
-        ArrayAdapter<String> zhongTypeAdapter = new ArrayAdapter<String>(PubVar.m_DoEvent.m_Context,
-                android.R.layout.simple_spinner_item,
-                zhongType);
+        if(zhong.contains("七叶树")||zhong.contains("天师栗")) {
+            zhongType = "浙江七叶树,大果七叶树,长柄七叶树,大叶七叶树,欧洲七叶树,日本七叶树,云南七叶树,天师栗,小果七叶树,澜沧七叶树,多脉七叶树".split(",");
+        }else{ 
+            zhongType = "欧洲红豆杉,太平洋紫衫,加拿大红豆杉,南方红豆杉,中国红豆杉,东北红豆杉,佛罗里达红豆杉,墨西哥红豆杉,南洋红豆杉,西藏红豆杉,云南红豆杉".split(",");
+        }
+        ArrayAdapter<String> zhongTypeAdapter = new ArrayAdapter<String>(PubVar.m_DoEvent.m_Context,android.R.layout.simple_spinner_item,zhongType);
         zhongTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mZHongCnName.setAdapter(zhongTypeAdapter);
         for (int i = 0; i < zhongType.length; i++) {
@@ -145,23 +154,22 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
-
         mShuCnName = (TextView) findViewById(R.id.et_shu_cn_name);
         if (mBean.getShuCName() != null) {
-            if (mBean.getShuCName().contains("七叶")) {
-                mShuCnName.setText(mBean.getShuCName());
-            }
+            mShuCnName.setText(mBean.getShuCName());
         }
         mKeCnName = (TextView) findViewById(R.id.et_ke_cn_name);
         if (mBean.getKeCName() != null) {
-            if (mBean.getShuCName().contains("七叶")) {
-                mKeCnName.setText(mBean.getKeCName());
-            }
+            mKeCnName.setText(mBean.getKeCName());
         }
         mZHongLaName = (Spinner) findViewById(R.id.sp_zhong_la_name);
         String laname = mBean.getZhongLaName();
+        if(zhong.contains("七叶树")||zhong.contains("天师栗")){
+            laType = "Aesculus chinensis Bunge var.chekiangensis (Hu et Fang)Fang,Aesculus chuniana Hu et Fang,Aesculus assamica Griff.,Aesculus megaphylla Hu et Fang,Aesculus hippocastanum L.,Aesculus turbinata Bl.,Aesculus wangii Hu,Aesculus wilsonii Rehd.,Aesculus tsiangii,Aesculus lantsangensis Hu & W. P. Fang,Aesculus polyneura Hu et Fang".split(",");
+        }else{
+            laType="Taxus baccata L.,Taxus brevifolia,Taxus canadensis Marshall,Taxus wallichiana var. mairei (Leme & H. Lv.) L. K. Fu & Nan Li,Taxus chinensis（Pilger）Rehd,Taxus cuspidata Siebold & Zucc.,Taxus floridana Nutt. ex Chapm.,Taxus globosa Schltdl.,Taxus sumatrana,Taxus wallichiana Zucc.,Taxus yunnanensis Cheng et L. K. Fu".split(",");;
+        }
 
-        String[] laType = "Aesculus chinensis Bunge var.chekiangensis (Hu et Fang)Fang,Aesculus chuniana Hu et Fang,Aesculus assamica Griff.,Aesculus megaphylla Hu et Fang,Aesculus hippocastanum L.,Aesculus turbinata Bl.,Aesculus wangii Hu,Aesculus wilsonii Rehd.,Aesculus tsiangii,Aesculus lantsangensis Hu & W. P. Fang,Aesculus polyneura Hu et Fang".split(",");
         ArrayAdapter<String> laTypeAdapter = new ArrayAdapter<String>(PubVar.m_DoEvent.m_Context, android.R.layout.simple_spinner_item, laType);
         laTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mZHongLaName.setAdapter(laTypeAdapter);
@@ -246,20 +254,14 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
 
         mShuLaName = (TextView) findViewById(R.id.et_shu_la_name);
         if (mBean.getShuLaName() != null) {
-            if (mBean.getShuLaName().equals("Aesculus")) {
-                mShuLaName.setText(mBean.getShuLaName());
-            }
+            mShuLaName.setText(mBean.getShuLaName());
         }
         mKeLaName = (TextView) findViewById(R.id.et_ke_la_name);
         if (mBean.getKeLaName() != null) {
-            if (mBean.getKeLaName().equals("Hippocastanaceae")) {
-                mKeLaName.setText(mBean.getKeLaName());
-            }
+            mKeLaName.setText(mBean.getKeLaName());
         }
 
-
         mSpPoxiang = (Spinner) findViewById(R.id.sp_po_xiang);
-
         mSpPodu = (Spinner) findViewById(R.id.sp_po_du);
         mSpPowei = (Spinner) findViewById(R.id.sp_po_wei);
 
@@ -316,7 +318,7 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
         mXujiResult.setText(mBean.getXuji() + "m³");
         mSpTuTYpe = (Spinner) findViewById(R.id.sp_tu_type);
         String tutype = mBean.getTuType();
-        String[] tuType = "黄棕壤,棕壤,暗棕壤,灰黑土,漂灰土,燥红土,褐土,塿土,灰褐土,黑垆土,黑钙土,棕钙土,灰钙土,灰漠土,灰棕漠土,棕漠土,沼泽土,水稻土,黑土,白浆土,潮土,砂姜黑土,灌淤土,绿洲土,草甸土,盐土,碱土,紫色土,石灰土,磷质石灰土,黄绵土,风沙土,火山灰土,山地草甸土,亚高山草甸土,高山草甸土,亚高山草原土,高山草原土,亚高山漠土,高山漠土,高山寒冰土,洪积冲积土,石骨土,耕作土".split(",");
+        String[] tuType = "砖红壤,赤红壤,红壤,黄壤,黄红壤,黄棕壤,棕壤,暗棕壤,灰黑土,漂灰土,燥红土,褐土,塿土,灰褐土,黑垆土,黑钙土,栗钙土,棕钙土,灰钙土,灰漠土,灰棕漠土,棕漠土,沼泽土,水稻土,黑土,白浆土,潮土,砂姜黑土,灌淤土,绿洲土,草甸土,盐土,碱土,紫色土,石灰土,磷质石灰土,黄绵土,风沙土,火山灰土,山地草甸土,亚高山草甸土,高山草甸土,亚高山草原土,高山草原土,亚高山漠土,高山漠土,高山寒冰土,洪积冲积土,石骨土,耕作土".split(",");
         ArrayAdapter<String> tuTypeAdapter = new ArrayAdapter<String>(PubVar.m_DoEvent.m_Context,
                 android.R.layout.simple_spinner_item,
                 tuType);
@@ -602,7 +604,7 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
         String[] from = {"image", "text", "check"};
         int[] to = {R.id.iv_video_image, R.id.tv_video_info, R.id.cb_video_select};
         List data_list = new ArrayList<HashMap<String, Object>>();
-        if (mVideoNameList != null ) {
+        if (mVideoNameList != null) {
             for (int i = 0; i < mVideoNameList.size(); i++) {
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("image", mThumNameList.get(i));
@@ -1014,7 +1016,7 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
         String xian = mTvXian.getText().toString().trim();
         String maddress = mEtAddress.getText().toString().trim();
         String mDiaoPerson = mTvDiaochaZhe.getText().toString().trim();
-        String mTianBiaoRen = mTvDiaochaZhe.getText().toString().trim();
+        String mTianBiao = mTianBiaoRen.getText().toString().trim();
         String mFillDate = mTvdate.getText().toString().trim();
         String mCNzhong = mZHongCnName.getSelectedItem().toString().trim();
         String mCNshu = mShuCnName.getText().toString().trim();
@@ -1041,13 +1043,13 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
         String mBei = mBeiZhu.getText().toString().trim();
 
         if (okay) {
-            RoundExamineEntity exam = new RoundExamineEntity();
+            final RoundExamineEntity exam = new RoundExamineEntity();
             exam.setOrderNumber(id);
             exam.setSheng(sheng);
             exam.setXian(xian);
             exam.setAddress(maddress);
             exam.setExmainPerson(mDiaoPerson);
-            exam.setFillPerson(mTianBiaoRen);
+            exam.setFillPerson(mTianBiao);
             exam.setExamineDate(mFillDate);
             exam.setZhongCName(mCNzhong);
             exam.setShuCName(mCNshu);
@@ -1062,18 +1064,18 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
             exam.setPoDu(mPoDu);
             exam.setPoWei(mPoWei);
             if (treeHight != null && !TextUtils.isEmpty(treeHight)) {
-                double treeHigh=Double.valueOf(treeHight);
-                BigDecimal bd=new BigDecimal(treeHigh).setScale(0, BigDecimal.ROUND_HALF_UP);
+                double treeHigh = Double.valueOf(treeHight);
+                BigDecimal bd = new BigDecimal(treeHigh).setScale(0, BigDecimal.ROUND_HALF_UP);
                 exam.setTreeHight(Integer.valueOf(bd.toString()));
             }
             if (xiongD != null && !TextUtils.isEmpty(xiongD)) {
-                double xiong=Double.valueOf(xiongD);
-                BigDecimal bd=new BigDecimal(xiong).setScale(0, BigDecimal.ROUND_HALF_UP);
+                double xiong = Double.valueOf(xiongD);
+                BigDecimal bd = new BigDecimal(xiong).setScale(0, BigDecimal.ROUND_HALF_UP);
                 exam.setXiongJin(Integer.valueOf(bd.toString()));
             }
             if (guanfu != null && !TextUtils.isEmpty(guanfu)) {
-                double fu=Double.valueOf(guanfu);
-                BigDecimal bd=new BigDecimal(fu).setScale(0, BigDecimal.ROUND_HALF_UP);
+                double fu = Double.valueOf(guanfu);
+                BigDecimal bd = new BigDecimal(fu).setScale(0, BigDecimal.ROUND_HALF_UP);
                 exam.setGuanFu(Integer.valueOf(bd.toString()));
             }
             if (zhiGao != null && !TextUtils.isEmpty(zhiGao)) {
@@ -1107,6 +1109,31 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
 
             }
             if (PatrolManager.getInstance().saveExaminEvent(exam)) {
+                List<UploadEntity> entity = PatrolManager.getInstance().getUpload();
+                if (entity != null && entity.size() > 0) {
+                    for(int i=0;i<entity.size();i++){
+                        if(entity.get(i).getOrderNumber().equals(exam.getOrderNumber())){
+                            Id=entity.get(i).getId();
+                        }
+                    }
+
+                    UploadMananger.getInstance().EditEvent(Id,exam, new ICallback() {
+                        @Override
+                        public void OnClick(String Str, Object ExtraStr) {
+                            if (Str.equals("success")) {
+                                UploadPhoto(0, exam, ExtraStr.toString());
+                                Toast.makeText(getApplicationContext(), "当前修改的单株调查信息,已上传成功!", Toast.LENGTH_SHORT).show();
+                            } else if (Str.equals("failed")) {
+                                if (ExtraStr != null) {
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "当前修改的单株调查信息,已上传失败!", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        }
+                    });
+                }
                 if (mFilename != null && mFilename.size() > 0) {
                     for (int i = 0; i < mFilename.size(); i++) {
                         File file = new File(mFilename.get(i));
@@ -1133,6 +1160,30 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), "保存失败！", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+    }
+
+
+    private void UploadPhoto(final int i, final RoundExamineEntity entity, final String data) {
+        String mPhoto = entity.getPhotoList();
+        if (mPhoto != null && mPhoto.split(",").length > 0) {
+            hasPhoto = i < mPhoto.split(",").length;
+            if (hasPhoto) {
+                UploadMananger.getInstance().uploadPhotoes(entity, entity.getPhotoList().split(",")[i], data, new ICallback() {
+                    @Override
+                    public void OnClick(String Str, Object ExtraStr) {
+                        if (Str.equals("success")) {
+                            Toast.makeText(getApplicationContext(), "当前修改的调查信息,第" + (i + 1) + "张照片,上传成功!", Toast.LENGTH_SHORT).show();
+                        } else if (Str.equals("failed")) {
+                            Toast.makeText(getApplicationContext(), "当前修改的调查信息,第" + (i + 1) + "张照片,上传失败!", Toast.LENGTH_SHORT).show();
+                        }
+                        UploadPhoto(i + 1, entity, data);
+
+                    }
+                });
             }
 
         }

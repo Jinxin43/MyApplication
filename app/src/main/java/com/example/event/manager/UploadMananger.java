@@ -19,6 +19,7 @@ import com.example.event.http.Httpmodel.HttpPatrolPointModel;
 import com.example.event.http.Httpmodel.HttpRoundModel;
 import com.example.event.http.Httpmodel.HttpTraceModel;
 import com.example.event.http.RetrofitHttp;
+import com.example.event.model.EditBean;
 import com.example.event.model.UploadMessage;
 
 import org.json.JSONException;
@@ -89,18 +90,16 @@ public class UploadMananger {
         }).start();
     }
 
-    public void uploadPhotoes(final RoundExamineEntity entity, final String photoName, final ICallback myCallback) {
-        SharedPreferences preferences =AppSetting.applicaton.getApplicationContext().getSharedPreferences("userID", Context.MODE_PRIVATE);
-        final String userId=preferences.getString("UserId","");
+    public void uploadPhotoes(final RoundExamineEntity entity, final String photoName, final String data, final ICallback myCallback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Map<String, RequestBody> map = new HashMap<String, RequestBody>();
-                RequestBody Id = RequestBody.create(MediaType.parse("text/plain"),userId);
+                RequestBody Id = RequestBody.create(MediaType.parse("text/plain"), data);
                 map.put("TargetId", Id);
-                RequestBody order = RequestBody.create(MediaType.parse("text/plain"),entity.getPhotoOrderNum());
-                map.put("filelist",order);
-                File photoFile = new File(PubVar.m_SysAbsolutePath + "/Photo/"+photoName);
+                RequestBody order = RequestBody.create(MediaType.parse("text/plain"), entity.getPhotoOrderNum());
+                map.put("filelist", order);
+                File photoFile = new File(PubVar.m_SysAbsolutePath + "/Photo/" + photoName);
                 RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), photoFile);
                 map.put("uploadedFiles\"; filename=\"" + photoFile.getName(), fileBody);
                 OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -108,6 +107,28 @@ public class UploadMananger {
             }
         }).start();
     }
+
+//    public void uploadVideo(final RoundExamineEntity entity, final String videoName, final ICallback myCallback) {
+//        SharedPreferences preferences =AppSetting.applicaton.getApplicationContext().getSharedPreferences("userID", Context.MODE_PRIVATE);
+//        final String userId=preferences.getString("UserId","");
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Map<String, RequestBody> map = new HashMap<String, RequestBody>();
+//                RequestBody Id = RequestBody.create(MediaType.parse("text/plain"),userId);
+//                map.put("TargetId", Id);
+//                RequestBody order = RequestBody.create(MediaType.parse("text/plain"),entity.getVideoList());
+//                map.put("filelist",order);
+//                File photoFile = new File(videoName);
+//                RequestBody fileBody = RequestBody.create(MediaType.parse("video/mp4"), photoFile);
+//                map.put("uploadedFiles\"; filename=\"" + photoFile.getName(), fileBody);
+//                OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//                result(RetrofitHttp.getRetrofit(builder.build()).UploadVideo("UploadTreeVideo", map), myCallback);
+//            }
+//        }).start();
+//
+//    }
+
 
     private void result(Call<ResponseBody> newPhoto, final ICallback myCallback) {
         newPhoto.enqueue(new Callback<ResponseBody>() {
@@ -122,12 +143,12 @@ public class UploadMananger {
                     }
                     JSONObject result = new JSONObject(response.body().string());
                     if (result.get("success").equals(Boolean.TRUE)) {
-                        Log.e("Tag", " result: " + result+"*****");
+                        Log.e("Tag", " result: " + result + "*****");
                         myCallback.OnClick("success", null);
 
                     } else {
                         myCallback.OnClick("failed", null);
-                        Log.e("Tag", " result: " + result+"*****");
+                        Log.e("Tag", " result: " + result + "*****");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -137,17 +158,55 @@ public class UploadMananger {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                myCallback.OnClick("Tag",null);
+                myCallback.OnClick("Tag", null);
                 Log.e("Tag", t.getMessage());
             }
         });
 
     }
 
+    public void EditEvent(final String id, final RoundExamineEntity exam, final ICallback myCallback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EditBean edit = new EditBean();
+                edit.setTreeId(id);
+                edit.setSheng(exam.getSheng());
+                edit.setXian(exam.getXian());
+                edit.setPlace(exam.getAddress());
+                edit.setSurveyusers(exam.getExmainPerson());
+                edit.setSurveytime(exam.getExamineDate());
+                edit.setWriteusers(exam.getFillPerson());
+                edit.setDescription(exam.getImportDescribe());
+                edit.setRemark(exam.getStateDescribe());
+                edit.setZhongcnname(exam.getZhongCName());
+                edit.setShucnname(exam.getShuCName());
+                edit.setKecnname(exam.getKeCName());
+                edit.setZhonglaname(exam.getZhongLaName());
+                edit.setShulaname(exam.getShuLaName());
+                edit.setKelaname(exam.getKeLaName());
+                edit.setAspect(exam.getPoXiang());
+                edit.setSlopeposition(exam.getPoWei());
+                edit.setSlope(exam.getPoDu());
+                edit.setTreeheight(exam.getTreeHight() + "");
+                edit.setXiongj(exam.getXiongJin() + "");
+                edit.setGuanfu(exam.getGuanFu() + "");
+                edit.setZhiheight(exam.getZhiHight() + "");
+                edit.setXj(exam.getXuji() + "");
+                edit.setType(exam.getTuType());
+                edit.setPhotos(exam.getPhotoList());
+                edit.setPhotouser(exam.getTakePerson());
+                edit.setPhototime(exam.getTakeDate());
+                OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                prompt(RetrofitHttp.getRetrofit(builder.build()).EditMessage("EditTreeSurvey", edit), myCallback);
+            }
+        }).start();
+    }
+
 
     public void uploadEvent(final RoundExamineEntity roundEntity, final ICallback myCallback) {
-        SharedPreferences preferences =AppSetting.applicaton.getApplicationContext().getSharedPreferences("userID", Context.MODE_PRIVATE);
-        final String userId=preferences.getString("UserId","");
+        SharedPreferences preferences = AppSetting.applicaton.getApplicationContext().getSharedPreferences("userID", Context.MODE_PRIVATE);
+        final String userId = preferences.getString("UserId", "");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -160,8 +219,8 @@ public class UploadMananger {
                 message.setSurveyusers(roundEntity.getExmainPerson());
                 message.setSurveytime(roundEntity.getExamineDate());
                 message.setWriteusers(roundEntity.getFillPerson());
-                message.setLatitude(roundEntity.getLatitude() + "");
-                message.setLongitude(roundEntity.getLongtitude() + "");
+                message.setLatitude(roundEntity.getLongtitude() + "");
+                message.setLongitude(roundEntity.getLatitude() + "");
                 message.setHeight(roundEntity.getHight() + "");
                 message.setDescription(roundEntity.getImportDescribe());
                 message.setRemark(roundEntity.getStateDescribe());
@@ -174,7 +233,7 @@ public class UploadMananger {
                 message.setAspect(roundEntity.getPoXiang());
                 message.setSlopeposition(roundEntity.getPoWei());
                 message.setSlope(roundEntity.getPoDu());
-                message.setTreeheight(Integer.parseInt(new java.text.DecimalFormat("0").format(roundEntity.getTreeHight())));
+                message.setTreeheight(Integer.parseInt(new java.text.DecimalFormat("0").format(roundEntity.getTreeHight())) + "");
                 message.setXiongj(roundEntity.getXiongJin() + "");
                 message.setGuanfu(roundEntity.getGuanFu() + "");
                 message.setZhiheight(roundEntity.getZhiHight() + "");
@@ -183,9 +242,14 @@ public class UploadMananger {
                 message.setPhotos(roundEntity.getPhotoList());
                 message.setPhotouser(roundEntity.getTakePerson());
                 message.setPhototime(roundEntity.getTakeDate());
-                message.setGpstime(System.currentTimeMillis()+"");
+                message.setGpstime(roundEntity.getOrderNumber() + "");
                 //wgs-84
                 message.setSrid("4326");
+                if(roundEntity.getZhongCName().contains("红豆杉")){
+                    message.setTreetype("红豆杉调查");
+                }else{
+                    message.setTreetype("七叶树调查");
+                }
 
                 OkHttpClient.Builder builder = new OkHttpClient.Builder();
                 prompt(RetrofitHttp.getRetrofit(builder.build()).UploadMessage("CreateTreeSurvey", message), myCallback);
@@ -193,7 +257,7 @@ public class UploadMananger {
         }).start();
     }
 
-    private void prompt( Call<ResponseBody> createTreeSurvey, final ICallback myCallback) {
+    private void prompt(Call<ResponseBody> createTreeSurvey, final ICallback myCallback) {
         createTreeSurvey.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -205,12 +269,12 @@ public class UploadMananger {
                     }
                     JSONObject result = new JSONObject(response.body().string());
                     if (result.get("success").equals(Boolean.TRUE)) {
-                        Log.e("Tag", " result: " + result+"%%%%%%");
-                        myCallback.OnClick("success", null);
+                        Log.e("Tag", " result: " + result);
+                        myCallback.OnClick("success", result.get("data"));
 
                     } else {
-                        myCallback.OnClick("failed", null);
-                        Log.e("Tag", " result: " + result+"%%%%%%");
+                        myCallback.OnClick("failed", result.get("msg"));
+                        Log.e("Tag", " result: " + result + "%%%%%%");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -222,7 +286,7 @@ public class UploadMananger {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                myCallback.OnClick("failed",null);
+                myCallback.OnClick("failed", null);
                 Log.e("Tag", t.getMessage());
             }
         });
@@ -238,7 +302,7 @@ public class UploadMananger {
                 try {
 
                     if (response.body() == null) {
-                        myCallback.OnClick("failed",AppSetting.curRound );
+                        myCallback.OnClick("failed", AppSetting.curRound);
                         Log.e("Start Round upload", " response.body() is null ");
                         return;
                     }
@@ -263,7 +327,7 @@ public class UploadMananger {
 
             @Override
             public void onFailure(Call<ResponseBody> reg, Throwable t) {
-                myCallback.OnClick("failed",AppSetting.curRound);
+                myCallback.OnClick("failed", AppSetting.curRound);
                 Log.e("Round upload failed", " exception: " + t.getMessage());
             }
         });
@@ -440,4 +504,6 @@ public class UploadMananger {
             }
         });
     }
+
+
 }

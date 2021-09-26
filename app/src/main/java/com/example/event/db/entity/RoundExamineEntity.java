@@ -378,4 +378,5 @@ public class RoundExamineEntity  implements RoundExamine, Serializable {
 //    public void setVideoThumList(String videoThumList) {
 //        this.videoThumList = videoThumList;
 //    }
+
 }

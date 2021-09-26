@@ -2,6 +2,7 @@ package com.example.event.http;
 
 import com.example.event.db.xEntity.RoundExamineEntity;
 import com.example.event.http.Httpmodel.HttpEventModel;
+import com.example.event.http.Httpmodel.HttpModifyModel;
 import com.example.event.http.Httpmodel.HttpPatrolPointModel;
 import com.example.event.http.Httpmodel.HttpRegisterModel;
 import com.example.event.http.Httpmodel.HttpRoundModel;
@@ -9,6 +10,7 @@ import com.example.event.http.Httpmodel.HttpTraceModel;
 import com.example.event.http.Httpmodel.HttpUserModel;
 import com.example.event.http.Httpmodel.RequestId;
 import com.example.event.http.Httpmodel.RequestUserId;
+import com.example.event.model.EditBean;
 import com.example.event.model.GetRoutelineBean;
 import com.example.event.model.UploadMessage;
 
@@ -36,9 +38,11 @@ public interface HttpInterface {
     @POST("/api/DTUsers/{action}")
     Call<ResponseBody> register(@Path("action") String action, @Body HttpRegisterModel userModel);
 
+    @POST("/api/DTUsers/{action}")
+    Call<ResponseBody> modify(@Path("action")String action, @Body HttpModifyModel model);
+
     @POST("/api/DTTracks/{action}")
     Call<ResponseBody> CreateRound(@Path("action") String action, @Body HttpRoundModel httpRoundModel);
-
 
     @Multipart
     @POST("/api/DTTracks/{action}")
@@ -86,5 +90,14 @@ public interface HttpInterface {
     @Multipart
     @POST("/api/DTForestZones/{action}")
     Call<ResponseBody> UploadPhoto(@Path("action") String action , @PartMap Map<String, RequestBody> params);
+
+    @POST("/api/DTForestZones/{action}")
+    Call<ResponseBody> EditMessage(@Path("action") String action, @Body EditBean bean);
+
+    @Multipart
+    @POST("/api/DTForestZones/{action}")
+    Call<ResponseBody> UploadVideo(@Path("action") String action , @PartMap Map<String, RequestBody> params);
+
+
 
 }

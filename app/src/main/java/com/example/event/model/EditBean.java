@@ -1,20 +1,16 @@
 package com.example.event.model;
 
-public class UploadMessage {
+public class EditBean {
 
 
     /**
-     * userId : string
-     * number : string
+     * treeId : string
      * sheng : string
      * xian : string
      * place : string
      * surveyusers : string
      * surveytime : string
      * writeusers : string
-     * latitude : string
-     * longitude : string
-     * height : string
      * description : string
      * remark : string
      * zhongcnname : string
@@ -26,7 +22,6 @@ public class UploadMessage {
      * aspect : string
      * slopeposition : string
      * slope : string
-     * gpstime : string
      * treeheight : string
      * xiongj : string
      * guanfu : string
@@ -34,27 +29,18 @@ public class UploadMessage {
      * xj : string
      * type : string
      * photos : string
-     * photonums : string
      * photouser : string
      * phototime : string
      * videos : string
-     * x : string
-     * y : string
-     * srid : string
-     * treetype : string
      */
 
-    private String userId;
-    private String number;
+    private String treeId;
     private String sheng;
     private String xian;
     private String place;
     private String surveyusers;
     private String surveytime;
     private String writeusers;
-    private String latitude;
-    private String longitude;
-    private String height;
     private String description;
     private String remark;
     private String zhongcnname;
@@ -66,7 +52,6 @@ public class UploadMessage {
     private String aspect;
     private String slopeposition;
     private String slope;
-    private String gpstime;
     private String treeheight;
     private String xiongj;
     private String guanfu;
@@ -74,29 +59,16 @@ public class UploadMessage {
     private String xj;
     private String type;
     private String photos;
-    private String photonums;
     private String photouser;
     private String phototime;
     private String videos;
-    private String x;
-    private String y;
-    private String srid;
-    private String treetype;
 
-    public String getUserId() {
-        return userId;
+    public String getTreeId() {
+        return treeId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
+    public void setTreeId(String treeId) {
+        this.treeId = treeId;
     }
 
     public String getSheng() {
@@ -145,30 +117,6 @@ public class UploadMessage {
 
     public void setWriteusers(String writeusers) {
         this.writeusers = writeusers;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
     }
 
     public String getDescription() {
@@ -259,14 +207,6 @@ public class UploadMessage {
         this.slope = slope;
     }
 
-    public String getGpstime() {
-        return gpstime;
-    }
-
-    public void setGpstime(String gpstime) {
-        this.gpstime = gpstime;
-    }
-
     public String getTreeheight() {
         return treeheight;
     }
@@ -323,14 +263,6 @@ public class UploadMessage {
         this.photos = photos;
     }
 
-    public String getPhotonums() {
-        return photonums;
-    }
-
-    public void setPhotonums(String photonums) {
-        this.photonums = photonums;
-    }
-
     public String getPhotouser() {
         return photouser;
     }
@@ -353,37 +285,5 @@ public class UploadMessage {
 
     public void setVideos(String videos) {
         this.videos = videos;
-    }
-
-    public String getX() {
-        return x;
-    }
-
-    public void setX(String x) {
-        this.x = x;
-    }
-
-    public String getY() {
-        return y;
-    }
-
-    public void setY(String y) {
-        this.y = y;
-    }
-
-    public String getSrid() {
-        return srid;
-    }
-
-    public void setSrid(String srid) {
-        this.srid = srid;
-    }
-
-    public String getTreetype() {
-        return treetype;
-    }
-
-    public void setTreetype(String treetype) {
-        this.treetype = treetype;
     }
 }

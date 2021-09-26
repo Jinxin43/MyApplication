@@ -7,6 +7,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -25,8 +26,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         View customView = LayoutInflater.from(this).inflate(R.layout.actionbar_title, new RelativeLayout(this), false);
         ActionBar actionBar=getSupportActionBar();
         actionBar.setCustomView(customView);
-        ((TextView)customView.findViewById(R.id.tv_back)).setText("优良树调查");
+        ((TextView)customView.findViewById(R.id.tv_back)).setText("优良树种外业调查");
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ((ImageView)customView.findViewById(R.id.iv_back)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +186,25 @@ public class MainActivity extends AppCompatActivity
                         });
             }
         });
+
+        final SharedPreferences.Editor editor = getSharedPreferences("AutoPan",MODE_PRIVATE).edit();
+        ((Switch)customView.findViewById(R.id.sw_buttton)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    editor.putBoolean("gps_center",true);
+                    editor.commit();
+                }else {
+                    editor.putBoolean("gps_center",false);
+                    editor.commit();
+                }
+                SharedPreferences sp = getSharedPreferences("AutoPan",MODE_PRIVATE);
+                PubVar.AutoPan = sp.getBoolean("gps_center", true);
+
+            }
+        });
+        SharedPreferences sp = getSharedPreferences("AutoPan",MODE_PRIVATE);
+        PubVar.AutoPan = sp.getBoolean("gps_center", true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermission();
@@ -951,7 +973,7 @@ public class MainActivity extends AppCompatActivity
 
     private void openProject() {
         HashValueObject hvo = new HashValueObject();
-        hvo.Value = "优良树种调查";
+        hvo.Value = "优良树种外业调查";
         PubVar.m_HashMap.Add("Project", hvo);
 
 
@@ -1001,6 +1023,7 @@ public class MainActivity extends AppCompatActivity
         //打开底图数据源，其中有渲染底图图层 ，也就是创建GeoLayer
         _BKLayerExplorer.OpenBKDataSource();
 
+
         //读取工程的上次视图范围，如果没有则全图显示
         Envelope pEnv = _ProjectExplorer.ReadShowExtend();
         if (pEnv != null) {
@@ -1017,14 +1040,7 @@ public class MainActivity extends AppCompatActivity
         Dataset pDataset = PubVar.m_Workspace.GetDatasetById("T5A37395CA75F49F2B0A017DEE983D4EF");
         PubVar.m_DoEvent.mRoundLinePresenter.SetDataset(pDataset);
 
-        try {
-            Coordinate coordinate = PubVar.m_GPSLocate.getGPSCoordinate();
-            if (coordinate != null) {
-                PubVar.m_MapControl._Pan.SetNewCenter(coordinate);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

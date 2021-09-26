@@ -140,6 +140,8 @@ public class EventActivityFragment extends Fragment {
     private List<String> mThumNameList = new ArrayList<String>();
     private List<HashMap<String, Object>> data_list;
     private GridView mVideoGridView;
+    private Spinner mShuZhongType;
+    private String[] myZhongType;
 
 
     public EventActivityFragment() {
@@ -235,7 +237,39 @@ public class EventActivityFragment extends Fragment {
         Date date = new Date(System.currentTimeMillis());
         mTvDate.setText(simpleDateFormat.format(date));
 
+//        mShuZhongType= (Spinner) mView.findViewById(R.id.sp_shu_type);
+//        String[] shuType = "七叶树调查,红豆杉调查".split(",");
+//        ArrayAdapter<String> shuTypeAdapter = new ArrayAdapter<String>(PubVar.m_DoEvent.m_Context,
+//                android.R.layout.simple_spinner_item,
+//                shuType);
+//        shuTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        mShuZhongType.setAdapter(shuTypeAdapter);
+//        mShuZhongType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if(position==0){
+//                    myZhongType = "浙江七叶树,大果七叶树,长柄七叶树,大叶七叶树,欧洲七叶树,日本七叶树,云南七叶树,天师栗,小果七叶树,澜沧七叶树,多脉七叶树".split(",");
+//                }else if(position==1){
+//                    myZhongType = "红豆杉调查,".split(",");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+
+
         mZhongCnName = (Spinner) mView.findViewById(R.id.et_zhong_cn_name);
+//        String type=mShuZhongType.getSelectedItem().toString();
+//        if(type.equals("七叶树调查")){
+//            myZhongType = "浙江七叶树,大果七叶树,长柄七叶树,大叶七叶树,欧洲七叶树,日本七叶树,云南七叶树,天师栗,小果七叶树,澜沧七叶树,多脉七叶树".split(",");
+//        }else if(type.equals("红豆杉调查")){
+//            myZhongType = "秦岭红豆杉".split(",");
+//        }
+
         String[] zhongType = "浙江七叶树,大果七叶树,长柄七叶树,大叶七叶树,欧洲七叶树,日本七叶树,云南七叶树,天师栗,小果七叶树,澜沧七叶树,多脉七叶树".split(",");
         ArrayAdapter<String> zhongTypeAdapter = new ArrayAdapter<String>(PubVar.m_DoEvent.m_Context,
                 android.R.layout.simple_spinner_item,

@@ -41,8 +41,8 @@ public class XDbManager {
                                 db.execNonQuery("alter table roundExamine alter column zhiHight double not null");
                                 db.execNonQuery("alter table roundExamine alter column Xuji double not null");
 //                                try {
-                                    db.addColumn(RoundExamineEntity.class,"videoList");//新增的字段
-                                    db.addColumn(RoundExamine.class,"videoThumList");
+//                                    db.addColumn(RoundExamineEntity.class,"videoList");//新增的字段
+//                                    db.addColumn(RoundExamine.class,"videoThumList");
 //                                } catch (DbException e) {
 //                                    e.printStackTrace();
 //                                }

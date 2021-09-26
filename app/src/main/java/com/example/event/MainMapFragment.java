@@ -634,21 +634,29 @@ public class MainMapFragment extends Fragment {
         //打开底图数据源，其中有渲染底图图层 ，也就是创建GeoLayer
         _BKLayerExplorer.OpenBKDataSource();
 
-        //读取工程的上次视图范围，如果没有则全图显示
-        Envelope pEnv = _ProjectExplorer.ReadShowExtend();
-        if (pEnv != null) {
-            PubVar.m_MapControl.setActiveTool(com.DingTu.mapcontainer.Tools.FullScreenSize);
-            PubVar.m_Map.setExtend(pEnv);
-//            PubVar.m_Map.Refresh();
-        } else {
-            PubVar.m_MapControl.setActiveTool(com.DingTu.mapcontainer.Tools.FullScreen);
-        }
-
+//        //读取工程的上次视图范围，如果没有则全图显示
+//        Envelope pEnv = _ProjectExplorer.ReadShowExtend();
+//        if (pEnv != null) {
+//            PubVar.m_MapControl.setActiveTool(com.DingTu.mapcontainer.Tools.FullScreenSize);
+//            PubVar.m_Map.setExtend(pEnv);
+////            PubVar.m_Map.Refresh();
+//        } else {
+//            PubVar.m_MapControl.setActiveTool(com.DingTu.mapcontainer.Tools.FullScreen);
+//        }
+        PubVar.m_MapControl.setActiveTool(com.DingTu.mapcontainer.Tools.FullScreen);
         PubVar.m_Map.Refresh();
         PubVar.m_MapControl.setActiveTool(ZoomInOutPan);
 
         Dataset pDataset = PubVar.m_Workspace.GetDatasetById("T5A37395CA75F49F2B0A017DEE983D4EF");
         PubVar.m_DoEvent.mRoundLinePresenter.SetDataset(pDataset);
+        try {
+            Coordinate coordinate = PubVar.m_GPSLocate.getGPSCoordinate();
+            if (coordinate != null) {
+                PubVar.m_MapControl._Pan.SetNewCenter(PubVar.m_GPSLocate.getGPSCoordinate());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick({R.id.btnFullScreen, R.id.btnStartRound, R.id.btnSelectDraw, R.id.btnReportAlarm, R.id.btnReportEvent, R.id.btnDraw, R.id.btnFinishRound, R.id.btn_history,R.id.bt_gpslocate})

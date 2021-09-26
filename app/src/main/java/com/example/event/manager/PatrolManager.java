@@ -9,6 +9,7 @@ import com.example.event.db.xEntity.PatrolEntity;
 import com.example.event.db.xEntity.PatrolEventEntity;
 import com.example.event.db.xEntity.PatrolPointEntity;
 import com.example.event.db.xEntity.RoundExamineEntity;
+import com.example.event.db.xEntity.UploadEntity;
 
 import org.xutils.ex.DbException;
 
@@ -82,8 +83,8 @@ public class PatrolManager {
         XDbManager.getDb().saveOrUpdate(patrol);
     }
 
-    public List<PatrolEntity> getPatrol()  {
-        List<PatrolEntity>   patrol= null;
+    public List<PatrolEntity> getPatrol() {
+        List<PatrolEntity> patrol = null;
         try {
             patrol = XDbManager.getDb().findAll(PatrolEntity.class);
         } catch (DbException e) {
@@ -117,6 +118,19 @@ public class PatrolManager {
         return result;
     }
 
+    public boolean saveUpload(UploadEntity entity) {
+        boolean result = true;
+        try {
+            XDbManager.getDb().saveOrUpdate(entity);
+        } catch (Exception ex) {
+            Log.e("TAG", ex.getMessage());
+            result = false;
+        }
+
+        return result;
+    }
+
+
     public List<PatrolEventEntity> getPatrolEvents(String patrolId) {
         List<PatrolEventEntity> unloadEvents = new ArrayList<PatrolEventEntity>();
         try {
@@ -140,11 +154,16 @@ public class PatrolManager {
         return unloadEvents;
     }
 
+    public List<UploadEntity> getUpload() {
+        List<UploadEntity> unloadEvents = new ArrayList<UploadEntity>();
+        try {
+            unloadEvents = XDbManager.getDb().selector(UploadEntity.class).findAll();
+        } catch (Exception ex) {
+            Log.e("getPatrolEvents", "getPatrolEvents failed," + ex.getMessage());
+        }
 
-
-
-
-
+        return unloadEvents;
+    }
 
 
     public List<PatrolEventEntity> getUnloadPatrolEvents() {
@@ -158,9 +177,8 @@ public class PatrolManager {
         return unloadEvents;
     }
 
-    public PatrolEventEntity getPatrolEvent(String patrolEventId) throws  DbException
-    {
-        return XDbManager.getDb().selector(PatrolEventEntity.class).where("Id","=",patrolEventId).findFirst();
+    public PatrolEventEntity getPatrolEvent(String patrolEventId) throws DbException {
+        return XDbManager.getDb().selector(PatrolEventEntity.class).where("Id", "=", patrolEventId).findFirst();
     }
 
     public void savePatrolPoint(PatrolPointEntity patrolPointEntity) throws DbException {

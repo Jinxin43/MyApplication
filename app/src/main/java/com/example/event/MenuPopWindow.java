@@ -15,8 +15,11 @@ import com.DingTu.Base.ICallback;
 import com.DingTu.Base.PubVar;
 import com.DingTu.Base.Tools;
 import com.example.event.db.xEntity.RoundExamineEntity;
+import com.example.event.db.xEntity.UploadEntity;
 import com.example.event.manager.PatrolManager;
 import com.example.event.manager.UploadMananger;
+import com.example.event.model.RoundExamine;
+import com.example.event.model.UploadMessage;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,6 +52,9 @@ class MenuPopWindow extends PopupWindow {
     private boolean hasNext;
     private String mPhoto;
     private boolean hasPhoto;
+    private String mVideo;
+    private List<RoundExamineEntity> mlist;
+    private boolean hasVideo;
 
     public MenuPopWindow(Activity context) {
         this.mContetx = context;
@@ -88,33 +94,67 @@ class MenuPopWindow extends PopupWindow {
     }
 
     private void upload() {
-        uploadEventOneByOne(0);
-        UploadPicture(0);
-
-    }
-
-    private void UploadPicture(final int index) {
-        List<RoundExamineEntity> mlist = PatrolManager.getInstance().getExam();
+        mlist = PatrolManager.getInstance().getExam();
         if (mlist != null && mlist.size() > 0) {
-            hasNext = index < mlist.size();
-            if (hasNext) {
-                mPhoto = mlist.get(index).getPhotoList();
-                UploadPhoto(0, mlist.get(index));
-                UploadPicture(index + 1);
-
-            }
-
+            uploadEventOneByOne(0);
+//            UploadPicture(0);
+//            UploadVideo(0);
+        } else {
+            Toast.makeText(mContetx, "当前没有调查记录！", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
-    private void UploadPhoto(final int i, final RoundExamineEntity entity) {
+//    private void UploadVideo(final int index) {
+//        hasNext = index < mlist.size();
+//        if(hasNext){
+//            mVideo= mlist.get(index).getVideoList();
+//            uploadVideo(0,mlist.get(index));
+//            UploadVideo(index+1);
+//        }
+//
+//    }
+
+//    private void uploadVideo(final int i, final RoundExamineEntity entity) {
+//        if (mVideo != null && mVideo.split(",").length > 0) {
+//            hasVideo = i < mVideo.split(",").length;
+//            if (hasVideo) {
+//                UploadMananger.getInstance().uploadVideo(entity, entity.getVideoList().split(",")[i], new ICallback() {
+//                    @Override
+//                    public void OnClick(String Str, Object ExtraStr) {
+//                        uploadVideo(i + 1, entity);
+//                    }
+//                });
+//            }
+//
+//        }
+//    }
+
+//    private void UploadPicture(final int index) {
+//        hasNext = index < mlist.size();
+//        if (hasNext) {
+//            mPhoto = mlist.get(index).getPhotoList();
+//            UploadPhoto(0, mlist.get(index),index);
+//            UploadPicture(index + 1);
+//        }
+//    }
+
+    private void UploadPhoto(final int i, final RoundExamineEntity entity, final int index, final String data) {
+        String mPhoto = entity.getPhotoList();
         if (mPhoto != null && mPhoto.split(",").length > 0) {
             hasPhoto = i < mPhoto.split(",").length;
             if (hasPhoto) {
-                UploadMananger.getInstance().uploadPhotoes(entity, entity.getPhotoList().split(",")[i], new ICallback() {
+                UploadMananger.getInstance().uploadPhotoes(entity, entity.getPhotoList().split(",")[i], data, new ICallback() {
                     @Override
                     public void OnClick(String Str, Object ExtraStr) {
-                        UploadPhoto(i + 1, entity);
+                        if (Str.equals("success")) {
+                            Log.d("Tag", (index + 1) + "*****" + (i + 1));
+                            Toast.makeText(mContetx, "第" + (index + 1) + "条调查信息,第" + (i + 1) + "张照片,已上传成功!", Toast.LENGTH_SHORT).show();
+                        } else if (Str.equals("failed")) {
+                            Toast.makeText(mContetx, "第" + (index + 1) + "条调查信息,第" + (i + 1) + "张照片,上传失败!", Toast.LENGTH_SHORT).show();
+                        }
+                        UploadPhoto(i + 1, entity, index, data);
 
                     }
                 });
@@ -125,20 +165,33 @@ class MenuPopWindow extends PopupWindow {
     }
 
     private void uploadEventOneByOne(final int index) {
-        List<RoundExamineEntity> mlist = PatrolManager.getInstance().getExam();
-        if (mlist != null && mlist.size() > 0) {
-           hasNext = index < mlist.size();
-            if(hasNext) {
-                RoundExamineEntity entity = mlist.get(index);
-                UploadMananger.getInstance().uploadEvent(entity, new ICallback() {
-                    @Override
-                    public void OnClick(String Str, Object ExtraStr) {
-                        uploadEventOneByOne(index + 1);
-                    }
-                });
-            }
-        }
+        hasNext = index < mlist.size();
+        Log.d("Tag", mlist.size() + "***");
+        if (hasNext) {
+            final RoundExamineEntity entity = mlist.get(index);
+            UploadMananger.getInstance().uploadEvent(entity, new ICallback() {
+                @Override
+                public void OnClick(String Str, Object ExtraStr) {
+                    if (Str.equals("success")) {
+                        UploadEntity upload = new UploadEntity();
+                        upload.setOrderNumber(entity.getOrderNumber());
+                        upload.setId(ExtraStr.toString());
+                        if (PatrolManager.getInstance().saveUpload(upload)) {
+                            Log.d("Tag", "保存成功");
+                        }
+                        UploadPhoto(0, entity, index, ExtraStr.toString());
+                        Toast.makeText(mContetx, "第" + (index + 1) + "条调查信息,已上传成功!", Toast.LENGTH_SHORT).show();
+                    } else if (Str.equals("failed")) {
+                        if (ExtraStr != null) {
+                        } else {
+                            Toast.makeText(mContetx, "第" + (index + 1) + "条调查信息，上传失败!", Toast.LENGTH_SHORT).show();
+                        }
 
+                    }
+                    uploadEventOneByOne(index + 1);
+                }
+            });
+        }
     }
 
     private void close() {

@@ -4,11 +4,7 @@ package com.example.event.db;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
-
 import com.example.event.db.dao.RoundDao;
-import com.example.event.db.dao.RoundEventDao;
-import com.example.event.db.dao.RoundExamineDao;
-import com.example.event.db.dao.TraceDao;
 import com.example.event.db.dao.UserDao;
 import com.example.event.db.entity.RoundEntity;
 import com.example.event.db.entity.RoundEventEntity;
@@ -30,11 +26,6 @@ public abstract class GenDataBase extends RoomDatabase {
 
     public abstract RoundDao roundDao();
 
-    public abstract TraceDao traceDao();
-
-    public abstract RoundEventDao roundEventDao();
-
-    public abstract RoundExamineDao roundExamineDao();
 
 
 }
