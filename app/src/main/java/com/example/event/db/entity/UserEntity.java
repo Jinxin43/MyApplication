@@ -1,8 +1,10 @@
 package com.example.event.db.entity;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 import com.example.event.model.User;
 
@@ -17,6 +19,7 @@ import java.util.Date;
 })
 public class UserEntity implements User {
     private String userID;
+    @NonNull
     @PrimaryKey
     private String loginName;
     private String password;

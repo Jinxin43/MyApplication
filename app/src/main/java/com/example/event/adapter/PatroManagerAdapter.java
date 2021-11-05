@@ -2,13 +2,15 @@ package com.example.event.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.ContentLoadingProgressBar;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.event.MainActivity;
 import com.example.event.R;
 import com.example.event.model.ManagerBean;

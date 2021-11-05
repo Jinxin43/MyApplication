@@ -1,8 +1,9 @@
 package com.example.event;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.DingTu.Base.PubVar;
 import com.DingTu.Base.Tools;

@@ -1,9 +1,10 @@
 package com.example.event.View;
 
 import android.graphics.Rect;
-import android.support.annotation.StringDef;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.StringDef;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

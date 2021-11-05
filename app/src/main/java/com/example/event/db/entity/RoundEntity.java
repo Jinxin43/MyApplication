@@ -1,8 +1,9 @@
 package com.example.event.db.entity;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 import com.example.event.model.Round;
 
@@ -17,6 +18,7 @@ import java.util.Date;
         @Index(value = "id")
 })
 public class RoundEntity implements Round {
+    @NonNull
     @PrimaryKey
     private String id;
     private String serverId;

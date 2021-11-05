@@ -1,7 +1,8 @@
 package com.example.event;
 
 import android.app.Application;
-import android.support.multidex.MultiDex;
+
+import androidx.multidex.MultiDex;
 
 import com.example.event.utils.CrashCatchHandler;
 

@@ -3,12 +3,13 @@ package com.example.event.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
+
+import androidx.core.content.FileProvider;
 
 import com.example.event.AppSetting;
 import com.example.event.R;

@@ -1,9 +1,10 @@
 package com.example.event.db.entity;
 
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 import com.example.event.model.RoundExamine;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Index(value = "orderNumber")
 })
 public class RoundExamineEntity  implements RoundExamine, Serializable {
+    @NonNull
     @PrimaryKey
     private String orderNumber;
     private String sheng;

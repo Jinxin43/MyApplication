@@ -47,10 +47,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v13.app.FragmentCompat;
-import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
@@ -65,8 +61,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.legacy.app.FragmentCompat;
+
 import com.DingTu.Base.PubVar;
-import com.example.event.EventActivity;
 import com.example.event.EventActivityFragment;
 import com.example.event.EventEditActivity;
 import com.example.event.R;

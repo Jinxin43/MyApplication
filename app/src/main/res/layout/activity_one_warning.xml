@@ -194,7 +194,7 @@
                 android:numColumns="3"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:verticalSpacing="1dip" />
-            <android.support.v7.widget.LinearLayoutCompat
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -216,7 +216,7 @@
                     android:background="@drawable/button_register"
                     android:text="删除"
                     android:textColor="@color/login_btn_text_color" />
-            </android.support.v7.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </LinearLayout>
         <RelativeLayout

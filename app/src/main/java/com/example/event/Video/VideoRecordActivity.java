@@ -1,7 +1,8 @@
 package com.example.event.Video;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.DingTu.Base.PubVar;
 import com.example.event.R;

@@ -1,8 +1,9 @@
 package com.example.event.manager;
 
-import android.support.media.ExifInterface;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import com.DingTu.Base.ICallback;
 import com.DingTu.Map.StaticObject;

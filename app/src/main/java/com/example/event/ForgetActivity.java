@@ -2,8 +2,6 @@ package com.example.event;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -17,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.event.Login.LoginActivity;
 import com.example.event.http.Httpmodel.HttpModifyModel;
 import com.example.event.http.RetrofitHttp;

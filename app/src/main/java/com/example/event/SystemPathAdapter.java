@@ -78,7 +78,7 @@ public class SystemPathAdapter extends BaseAdapter {
             v.setTag(obj);
             //分情况赋值
             String VType = v.getClass().getName();
-            if (VType.equals("android.support.v7.widget.AppCompatTextView")) {
+            if (VType.equals("androidx.appcompat.widget.AppCompatTextView")) {
                 TextView tv = (TextView) v;
                 if (obj.get(this.m_ObjField[i]) != null) {
                     tv.setText(obj.get(this.m_ObjField[i]).toString());

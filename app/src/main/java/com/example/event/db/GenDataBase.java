@@ -1,9 +1,9 @@
 package com.example.event.db;
 
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.TypeConverters;
 import com.example.event.db.dao.RoundDao;
 import com.example.event.db.dao.UserDao;
 import com.example.event.db.entity.RoundEntity;
