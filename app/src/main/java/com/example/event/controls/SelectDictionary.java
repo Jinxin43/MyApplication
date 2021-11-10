@@ -342,7 +342,7 @@ public class SelectDictionary {
 
                 //分情况赋值
                 String VType = v.getClass().getName();
-                Log.d("ViewType", VType);
+                Log.d("TAG",VType+"***");
                 //if (VType.equals("android.widget.TextView"))
                 if (VType.equals("androidx.appcompat.widget.AppCompatTextView")) {
                     TextView tv = (TextView) v;
